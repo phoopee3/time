@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Time</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .day {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .date {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .time {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="day" id="day"></div>
+        <div class="date" id="date"></div>
+        <div class="time" id="time"></div>
+    </div>
+
+    <script>
+        const dayEl = document.getElementById('day');
+        const dateEl = document.getElementById('date');
+        const timeEl = document.getElementById('time');
+
+        function getRandomDarkColor() {
+            // Generate a random color with good contrast for white text
+            // Use HSL to ensure the color is dark enough
+            const hue = Math.floor(Math.random() * 360);
+            const saturation = Math.floor(Math.random() * 40) + 60; // 60-100%
+            const lightness = Math.floor(Math.random() * 20) + 15;  // 15-35%
+            return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const timeZone = 'America/New_York';
+
+            const dayName = new Intl.DateTimeFormat('en-US', { 
+                weekday: 'long',
+                timeZone: timeZone 
+            }).format(now);
+            dayEl.textContent = dayName;
+
+            const dateStr = new Intl.DateTimeFormat('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+                timeZone: timeZone
+            }).format(now);
+            dateEl.textContent = dateStr;
+
+            const timeStr = new Intl.DateTimeFormat('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false,
+                timeZone: timeZone
+            }).format(now);
+            timeEl.textContent = timeStr;
+        }
+
+        updateDateTime();
+        document.body.style.background = getRandomDarkColor();
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>
